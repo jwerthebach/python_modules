@@ -24,11 +24,8 @@ Submodules get named after their purposes, e.g.
 Put every new category in a seperate folder and add it to the `setup.py` under `packages`.
 For some more detail on `setup.py` files see [example here](https://github.com/pypa/sampleproject/blob/master/setup.py).
 
-The module can also be uninstalled normally by using `pip uninstall anapymods`.
+The module can also be uninstalled normally by using `pip uninstall jopymods`.
 
-
-
-I need to adapt the folowing steps:
 
 ## Infos
 
@@ -37,9 +34,9 @@ I need to adapt the folowing steps:
   ```python
   # packages = find_package(where=".")
   packages = [
-  	"anapymods",
-  	"anapymods.submodule1",
-  	"anapymods.submodule2",
+  	"jopymods",
+  	"jopymods.submodule1",
+  	"jopymods.submodule2",
   	# and so on
   	]
   ```
@@ -50,46 +47,46 @@ I need to adapt the folowing steps:
   from ._sampling import *
   __all__ = [_s for _s in dir() if not _s.startswith('_')]
   ```
-- Then we can import stuff with `import anapymods.statistics as amps` and then the `amps` object holds alle the functions.
+- Then we can import stuff with `import jopymods.statistics as amps` and then the `amps` object holds alle the functions.
 - Further differentiation is done via subfiles. E.g. the submodule (folder) `statistics` contains `_tests.py` for statistical tests and `sampling.py` for sampling functions. The filenames are prepended with an underscore to hide it from the namespace. The same goes for imports inside the files. Using `import numpy as _np` hides `_np` from the namespace.
 
-## skylab
+## data_mc_plotter
 
-skylab is forked from https://www.github.com/coenders/skylab in https://www.github.com/mennthor/skylab and added as a submodule to this repo.
+data_mc_plotter is forked from https://github.com/mbrner/data_mc_plotter.git in https://www.github.com/jwerthebach/data_mc_plotter and added as a submodule to this repo.
 What follows are short instructions how to deal with this combination.
 
 ### fork and setup as submodule
 
-See [github](https://help.github.com/articles/fork-a-repo/) on how to fork a repo.
+See [github](https://help.github.com/articles/fork-a-repo/) on how to fork a repo and [github](https://help.github.com/articles/syncing-a-fork/) to sync this repo.
 
 Then as described [on git-scm](https://git-scm.com/book/de/v1/Git-Tools-Submodule) we make a submodule from the fork with 
 
 ```bash 
-git submodule add git@github.com:mennthor/skylab.git anapymods/skylab
+git submodule add git@github.com:jwerthebach/data_mc_plotter.git jopymods/data_mc_plotter
 ```
 
 Then we can add and commit outside like normal.
 
-For changes made inside the skylab submodule we need to be inside it.
-Let's add a `__init__.py` to make skylab availabe within our `anapymods` module:
+For changes made inside the data_mc_plotter submodule we need to be inside it.
+Let's add a `__init__.py` to make data_mc_plotter availabe within our `jopymods` module:
 
 ```bash
-cd anapymods/skylab
+cd jopymods/data_mc_plotter
 touch __init__.py
 git add __init__.py
-git commit -m "Made skylab work inside anapymods by adding __init__.py"
+git commit -m "Made data_mc_plotter work inside jopymods by adding __init__.py"
 git push
 ```
 
-This will push the changes to the skylab fork and does nothing with the outside repo.
+This will push the changes to the data_mc_plotter fork and does nothing with the outside repo.
 
-Outside we can track the change from skylab by running `git status` normally.
-We will see, that skylab is noted as changed `modified:   anapymods/skylab (new commits)`.
-So we track the skylab commits from outside with our normal workflow:
+Outside we can track the change from data_mc_plotter by running `git status` normally.
+We will see, that data_mc_plotter is noted as changed `modified:   jopymods/data_mc_plotter (new commits)`.
+So we track the data_mc_plotter commits from outside with our normal workflow:
 
 ```bash
-git add anapymods/skylab
-git commit -m "Made skylab work inside anapymods by adding __init__.py"
+git add jopymods/data_mc_plotter
+git commit -m "Made data_mc_plotter work inside jopymods by adding __init__.py"
 git push
 ```
 
@@ -97,10 +94,10 @@ When cloning the repo somewhere else, the newest submodule revision needs additi
 
 ### setup fork
 
-To be able to pull newest changes from the original skylab we need to set the upstream to ceonders github with 
+To be able to pull newest changes from the original data_mc_plotter we need to set the upstream to mbrner github with 
 
 ```bash
-git remote add upstream https://github.com/coenders/skylab.git
+git remote add upstream https://github.com/mbrner/data_mc_plotter.git
 ```
 
 Thgen syncing works as described in [github help](https://help.github.com/articles/syncing-a-fork):
