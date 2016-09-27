@@ -1,0 +1,15 @@
+# python and don't sync package egg-info
+*.egg-info
+**.pyc
+
+# No OSX files
+.DS_STORE
+._.DS_STORE
+
+# misc
+.ipynb_checkpoints
+
+# Plot should be remade easily
+**.jpg
+**.png
+**.pdf
