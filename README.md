@@ -50,6 +50,10 @@ The module can also be uninstalled normally by using `pip uninstall jopymods`.
 - Then we can import stuff with `import jopymods.statistics as amps` and then the `amps` object holds alle the functions.
 - Further differentiation is done via subfiles. E.g. the submodule (folder) `statistics` contains `_tests.py` for statistical tests and `sampling.py` for sampling functions. The filenames are prepended with an underscore to hide it from the namespace. The same goes for imports inside the files. Using `import numpy as _np` hides `_np` from the namespace.
 
+## attgen
+
+All functions in the module `attgen` needs to be run in an `icecube` environment. There for the *IceCube Offline Software* must be installed and the environment must be loaded by running the `env-shell.sh`.
+
 ## data_mc_plotter
 
 data_mc_plotter is forked from https://github.com/mbrner/data_mc_plotter.git in https://www.github.com/jwerthebach/data_mc_plotter and added as a submodule to this repo.
