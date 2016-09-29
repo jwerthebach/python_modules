@@ -1,7 +1,54 @@
 # python_modules
 
 Python helper modules and functions are collected globally here.
-This folder acts as a module folder and can be installed with pip:
+
+The intended use is to try to do any computation with a function and put the script in this module.
+Then we can use those modules around any analysis we have without copying and pasting code around.
+To distribute the analysis we only need to ship this module along with the analysis scripts, install it with pip as shown above and we are ready to reproduce it.
+
+
+## Installation
+
+First clone this repo from git.
+As it includes a data_mc_plotter fork as a submodule, we have to clone recursively, as described [here](http://stackoverflow.com/questions/3796927/how-to-git-clone-including-submodules):
+
+```bash
+git clone --recursive git@github.com:jwerthebach/python_modules.git
+```
+
+If the repo was already normally cloned (non recursively) then we can add the submodule later with:
+
+```bash
+git clone git@github.com:jwerthebach/python_modules.git
+# < Forgot to clone recursively... >
+cd jopymods/data_mc_plotter
+git submodule update --init --recursive
+```
+
+In the main repo we can list all submodules by simply using
+
+```bash
+git submodule
+```
+
+which will list all submodules and their paths.
+
+The repo is a python module folder and can be installed with pip:
+
+```bash
+cd python_modules
+pip install --user -e .
+```
+
+which puts it in the pip site-packages folder and makes it available systemwide if the site-packages are in the path
+.
+The `-e` option (developer mode) only links the package and let's you change code without reinstalling it over and over again.
+This solution avoid manually adding paths to the PYTHONPATH environment variable.
+
+### Uninstall
+
+The module can be uninstalled normally by using `pip uninstall anapymods`.
+
 
 ```bash
 pip install --user -e ./jopymods
