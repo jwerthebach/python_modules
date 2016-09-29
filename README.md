@@ -2,9 +2,18 @@
 
 Python helper modules and functions are collected globally here.
 
-The intended use is to try to do any computation with a function and put the script in this module.
-Then we can use those modules around any analysis we have without copying and pasting code around.
-To distribute the analysis we only need to ship this module along with the analysis scripts, install it with pip as shown above and we are ready to reproduce it.
+The intention is to put every function needed more than one time in this module. This avoids a lot of copying and pasting.
+To distribute the analysis we only need to ship this module along with the analysis scripts, install it with `pip` and we are ready to reproduce it.
+
+Submodules get named after their purposes, e.g.
+
+  plotting
+  data_mc_plotter
+  ...
+
+Put every new category in a seperate folder and add it to the `setup.py` under `packages`.
+For some more detail on `setup.py` files see [example here](https://github.com/pypa/sampleproject/blob/master/setup.py).
+
 
 
 ## Installation
@@ -45,33 +54,11 @@ which puts it in the pip site-packages folder and makes it available systemwide 
 The `-e` option (developer mode) only links the package and let's you change code without reinstalling it over and over again.
 This solution avoid manually adding paths to the PYTHONPATH environment variable.
 
-### Uninstall
-
-The module can be uninstalled normally by using `pip uninstall anapymods`.
-
-
-```bash
-pip install --user -e ./jopymods
-```
-
-This will make the folder available systemwide and puts it in the pip site-packages folder.
-The `-e` option (developer mode) only links the package and let's you change code withour reinstalling it over and over again.
-This solution avois manually adding paths to the PYTHONPATH environment variable.
 The folder name in `python_modules` defines also the module name under which it gets installed, here `jopymods` (JOhannesPYthonMODuleS).
 
-The intention is to put every function needed more than one time in this module. This avoids a lot of copying and pasting.
-To distribute the analysis we only need to ship this module along with the analysis scripts, install it with pip as shown above and we are ready to reproduce it.
+### Uninstall
 
-Submodules get named after their purposes, e.g.
-
-	plotting
-	data_mc_plotter
-	...
-
-Put every new category in a seperate folder and add it to the `setup.py` under `packages`.
-For some more detail on `setup.py` files see [example here](https://github.com/pypa/sampleproject/blob/master/setup.py).
-
-The module can also be uninstalled normally by using `pip uninstall jopymods`.
+The module can be uninstalled normally by using `pip uninstall jopymods`.
 
 
 ## Infos
