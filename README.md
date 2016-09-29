@@ -11,7 +11,7 @@ Submodules get named after their purposes, e.g.
   data_mc_plotter
   ...
 
-Put every new category in a seperate folder and add it to the `setup.py` under `packages`.
+Put every new category in a separate folder and add it to the `setup.py` under `packages`.
 For some more detail on `setup.py` files see [example here](https://github.com/pypa/sampleproject/blob/master/setup.py).
 
 
