@@ -618,7 +618,7 @@ class CountDAQFrames(icetray.I3ConditionalModule):
 class GenAttrDeviation(icetray.I3ConditionalModule):
 	"""The Attribute called "deviations" is calculated.
 
-	Measuring the standarddeviation of different fit directions in a frame.
+	Measuring the standard deviation of different fit directions in a frame.
 	"""
 
 	def __init__(self, context):
