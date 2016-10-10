@@ -223,6 +223,7 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	plt.legend(loc='best')
 	plt.ylabel(ylabel)
 	plt.xlabel(xlabel)
+	plt.show()
 	plt.savefig(file_name)
 	plt.clf()
 
