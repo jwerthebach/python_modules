@@ -141,11 +141,11 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	x : array_like, shape (n,m)
 		Input values, `m` specifies the number of datasets.
 
-	bins : [None | int | array_like shape (1,m)
+	bins : [int | array_like], optional shape (1,m)
 
 		The bin specification:
 
-		- If int, the number of bins for all histogram (nx=bins).
+		- If int, the number of bins for all datasets (nx=bins).
 		- If array_like, the number of bins specified for each dataset
 
 		The default value is 50.
@@ -189,29 +189,38 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	# get the number of datasets
 	n_iter = x.shape[1]
 
-	print()
-
+	# --- Prepare the options so that we build a loop
+	# check for bins
+	if isinstance(bins, int):
+		bins = [bins]*n_iter
 	# check if weights are present
 	if isinstance(MCweight, int):
-		# iterate over all datasets
-		for i in range(n_iter):
-
-			hist = plt.hist(x,
-						bins=bins,
-						alpha=alpha,
-						label=dlabel,
-						color=color,
-						log=log)
+		weights = [None]*n_iter
+	elif len(MCweight) == 1:
+		weights = [MCweight]*n_iter
 	else:
-		hist = plt.hist(x,
-						bins=bins,
+		weights = MCweight
+	# check lables for datasets
+	if dlabel == None:
+		dlabel = [None]*n_iter
+	elif isinstance(dlabel, str):
+		dlabel = [dlabel]*n_iter
+	# check for color
+	if color is None:
+		color = [None]*n_iter
+
+	# iterate over all datasets
+	for i in range(n_iter):
+
+		hist = plt.hist(x[],
+						binis=bins[i],
 						alpha=alpha,
-						weights=MCweight,
-						label=label,
-						color=color,
+						weights=weights[i],
+						label=dlabel[i],
+						color=color[i],
 						log=log)
 
-	plt.legend(loc=0)
+	plt.legend(loc='best')
 	plt.ylabel(ylabel)
 	plt.xlabel(xlabel)
 	plt.savefig(file_name)
