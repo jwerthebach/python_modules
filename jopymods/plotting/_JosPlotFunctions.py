@@ -5,7 +5,6 @@ from __future__ import print_function, division
 
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 from matplotlib.gridspec import GridSpec
 
 #cmap = plt.get_cmap("plasma")
@@ -234,7 +233,6 @@ def JoSubPlots(x1, x2, x3, label1, label2, label3, pdf, bins=100, pltcolor=color
 	Plot three histograms in one figure and save the figure in a pdf file.
 	x-limits of the lower two plots are 0-1.
 	"""
-	sns.set(style="whitegrid", color_codes=True)
 
 
 	plt.subplot(311)
@@ -321,8 +319,6 @@ def ErrCompPlot(x1, w1, x2, w2, bins=50, title=None,Log=False,xmin=None,xmax=Non
 			map(lambda x: GewErr(w1[DIGI_X==x]),range(len(bin_seq)-1) )
 				).transpose()[0]
 			)
-
-	sns.set(style="whitegrid", color_codes=True)
 
 
 	gs = GridSpec(2, 1, height_ratios=[3, 1])
