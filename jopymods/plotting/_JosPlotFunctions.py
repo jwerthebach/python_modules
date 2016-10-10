@@ -227,6 +227,25 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	plt.clf()
 
 
+def JoImportancePlot(imp, att, bins=50, fig_size=(5,3), color=None, file_name="Test.pdf"):
+	"""Do some description here"""
+
+	plt.figure(figsize=(6, 3))
+	plt.hist(importance, bins=120, alpha=0.6, color=color[7])
+	plt.plot(importance, np.zeros(len(importance)), linestyle='', marker=2, color=color[7], markersize=10, linewidth=2)
+
+	index = np.argsort(importance)
+	for i in range(10):
+	    n = index[-(i+1)]
+	    plt.annotate(att_names[n], xy=(importance[n], 6), xytext=(importance[n], -5+i*5),
+	             arrowprops=dict(facecolor='black', shrink=0.01, width=0.2, headwidth=4, headlength=4))
+
+	plt.ylabel("Number of Features")
+	plt.xlabel("Feature Importance")
+	plt.xlim(0,0.015)
+	plt.savefig("../../data/proc/plotting/comparison/test_importance_2.pdf")
+
+
 def JoSubPlots(x1, x2, x3, label1, label2, label3, pdf, bins=100, pltcolor=color[0], divE=0):
 	"""Function to print three subplots horizontal.
 
