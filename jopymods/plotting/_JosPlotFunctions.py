@@ -213,7 +213,7 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	for i in range(n_iter):
 
 		hist = plt.hist(x[i],
-						binis=bins[i],
+						bins=bins[i],
 						alpha=alpha,
 						weights=weights[i],
 						label=dlabel[i],
