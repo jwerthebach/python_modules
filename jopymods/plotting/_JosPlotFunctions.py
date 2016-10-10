@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+from __future__ import print_function, division
+
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -34,14 +36,14 @@ def JoHist2d(x, y, bins, xlabel="x", ylabel="y", clabel="# Events",
 
 	bins : [None | int | [int, int] | array_like | [array, array]]
 
-	    The bin specification:
-	    
-	    - If int, the number of bins for the two dimensions (nx=ny=bins).
-	    - If [int, int], the number of bins in each dimension (nx, ny = bins).
-	    - If array_like, the bin edges for the two dimensions (x_edges=y_edges=bins).
-	    - If [array, array], the bin edges in each dimension (x_edges, y_edges = bins).
+		The bin specification:
 
-	    The default value is 10.
+		- If int, the number of bins for the two dimensions (nx=ny=bins).
+		- If [int, int], the number of bins in each dimension (nx, ny = bins).
+		- If array_like, the bin edges for the two dimensions (x_edges=y_edges=bins).
+		- If [array, array], the bin edges in each dimension (x_edges, y_edges = bins).
+
+		The default value is 10.
 
 	xlabel,ylable, clable : string, optional
 		Lable for the axises
@@ -78,8 +80,8 @@ def JoHist2d(x, y, bins, xlabel="x", ylabel="y", clabel="# Events",
 	# get min/max value
 	min_v = min(x.min(), y.min())
 	max_v = max(x.max(), y.max())
-	
-	# color map to use 
+
+	# color map to use
 	cmap = plt.get_cmap(colormap)
 
 	# --- plot the correlation
@@ -93,7 +95,7 @@ def JoHist2d(x, y, bins, xlabel="x", ylabel="y", clabel="# Events",
 		# get the bin number for each event in the histogram
 		indices  = np.digitize(x,xedges)-1
 		# calculate bin centers to plot errors in the center of the bin
-		bin_mid  = (xedges[:-1]+xedges[1:])/2 
+		bin_mid  = (xedges[:-1]+xedges[1:])/2
 		# look for all events in one bin and calculate the mean and std
 		bin_mean = np.array([np.mean(y[indices == i]) for i in range(len(bin_mid))])
 		bin_std  = np.array([np.std(y[indices == i]) for i in range(len(bin_mid))])
@@ -118,7 +120,7 @@ def JoHist2d(x, y, bins, xlabel="x", ylabel="y", clabel="# Events",
 	plt.xlim(min_v, max_v)
 	plt.ylim(min_v, max_v)
 	# plot the colorbar, set the lable and set the limits
-	cb = plt.colorbar() 
+	cb = plt.colorbar()
 	cb.set_label(clabel)
 	cmin, cmax = cb.get_clim()
 	plt.clim(1, np.ceil(cmax))
@@ -127,14 +129,77 @@ def JoHist2d(x, y, bins, xlabel="x", ylabel="y", clabel="# Events",
 	plt.clf()
 
 
-def JoHist1d(x, bins=50, MCweight=1, label="x", log=True, file_name="Test.pdf", color=color[0]):
-	sns.set(style="whitegrid", color_codes=True)
+def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
+			dlabel=None, log=False, file_name="Test.pdf", color=None):
+	"""Creates a 1D histogram
 
+	If `x` is multidimensional it plots the different histograms in one plot
+	and uses weights if given.
+
+	Parameters:
+	-----------
+	x : array_like, shape (n,m)
+		Input values, `m` specifies the number of datasets.
+
+	bins : [None | int | array_like shape (1,m)
+
+		The bin specification:
+
+		- If int, the number of bins for all histogram (nx=bins).
+		- If array_like, the number of bins specified for each dataset
+
+		The default value is 50.
+
+	MCweight : array_like, optional, shape (n,1|m)
+		Containing the weights for the single events. The default uses the
+		weight of 1 for all events.
+
+		The default is None
+
+	xlabel, ylabel : string, optional
+		Label for the axises.
+
+		The default is `x = 'x'`, `y = 'Number of Events'`
+
+	dlabel : array_like, optional, shape (1,m)
+		Sequence of strings to match multiple datasets.
+
+		The default is None
+
+	log : boolean, optional
+		If `True`, the histogram axis will be set to a log scale. If log is
+		`True` and `x` is a 1D array, empty bins will be filtered out and only
+		the non-empty (`n, bins, patches`) will be returned.
+
+	Default is `False`
+
+
+	file_name : string, optional
+		file name to save the figure. You can also specify a path.
+
+		The default is `'Test.pdf'`
+
+	color : array_like, optional, shape (1,m)
+		Color spec or sequence of color specs, one per dataset. Default (None)
+		uses the standard line color sequence.
+
+		Default is `None`
+	"""
+
+	# get the number of datasets
+	n_iter = x.shape[1]
+
+	print()
+
+	# check if weights are present
 	if isinstance(MCweight, int):
-		hist = plt.hist(x,
+		# iterate over all datasets
+		for i in range(n_iter):
+
+			hist = plt.hist(x,
 						bins=bins,
 						alpha=alpha,
-						label=label,
+						label=dlabel,
 						color=color,
 						log=log)
 	else:
@@ -147,8 +212,8 @@ def JoHist1d(x, bins=50, MCweight=1, label="x", log=True, file_name="Test.pdf", 
 						log=log)
 
 	plt.legend(loc=0)
-	plt.ylabel("# Events")
-	plt.xlabel(label)
+	plt.ylabel(ylabel)
+	plt.xlabel(xlabel)
 	plt.savefig(file_name)
 	plt.clf()
 
@@ -186,7 +251,7 @@ def JoSubPlots(x1, x2, x3, label1, label2, label3, pdf, bins=100, pltcolor=color
 	plt.xlim(0, 1)
 	plt.xlabel(label2)
 	plt.ylabel("# Events")
-	
+
 	plt.subplot(313)
 	pltbins = np.linspace(0, 1, bins)
 	hist3 = plt.hist(x3,
@@ -214,11 +279,11 @@ def GewErr(W):
 
 def ErrCompPlot(x1, w1, x2, w2, bins=50, title=None,Log=False,xmin=None,xmax=None,space=0.07):
 	"""Makes a comparison plot with weighted Histogramms.
-	
+
 	Will calculate the binerror for the weighted x1 and the simple sqrt(n)
 	error for the unweighted x2.
 	"""
-	
+
 	# default values
 	linewidth  = 1.
 	markersize = 3.
@@ -227,7 +292,7 @@ def ErrCompPlot(x1, w1, x2, w2, bins=50, title=None,Log=False,xmin=None,xmax=Non
 	colorData  = color[5]
 	colorMC    = color[9]
 	colorRatio = color[1]
-		
+
 	# --- prepare the histogramms
 	# calculate binning
 	if not xmin:
@@ -237,7 +302,7 @@ def ErrCompPlot(x1, w1, x2, w2, bins=50, title=None,Log=False,xmin=None,xmax=Non
 	bin_seq = np.linspace(xmin, xmax, bins)
 	if Log:
 		bin_seq = np.logspace(xmin, xmax, bins)
-	
+
 	# fill x1 values in the binning to calculate errors
 	DIGI_X = np.digitize(x1,bins=bin_seq)-1
 	# calculate the error
@@ -246,10 +311,10 @@ def ErrCompPlot(x1, w1, x2, w2, bins=50, title=None,Log=False,xmin=None,xmax=Non
 			map(lambda x: GewErr(w1[DIGI_X==x]),range(len(bin_seq)-1) )
 				).transpose()[0]
 			)
-	
+
 	sns.set(style="whitegrid", color_codes=True)
-	
-	
+
+
 	gs = GridSpec(2, 1, height_ratios=[3, 1])
 	gs.update(hspace=space)
 	mainplt = plt.subplot(gs[0])
@@ -259,10 +324,10 @@ def ErrCompPlot(x1, w1, x2, w2, bins=50, title=None,Log=False,xmin=None,xmax=Non
 	x_1, _ = np.histogram(x1, bins=bin_seq, weights=w1)
 	x_2, _ = np.histogram(x2, bins=bin_seq)
 	x_2 = x_2/w2
-	
+
 	bin_center = 0.5 * (bin_seq[1:] + bin_seq[:-1])
 	hw = 0.5 * (bin_seq[1:] - bin_seq[:-1])
-	
+
 	mainplt.errorbar(bin_center,
 					 x_1,
 					 yerr=Yerr,
@@ -276,7 +341,7 @@ def ErrCompPlot(x1, w1, x2, w2, bins=50, title=None,Log=False,xmin=None,xmax=Non
 					 color=colorMC,
 					 alpha=alpha,
 					 label="MC")
-	
+
 	mainplt.errorbar(bin_center,
 					 x_2,
 					 #yerr=np.sqrt(x_2),
@@ -295,12 +360,12 @@ def ErrCompPlot(x1, w1, x2, w2, bins=50, title=None,Log=False,xmin=None,xmax=Non
 	plt.setp(mainplt.get_xticklabels(), visible=False)
 	mainplt.set_yscale("log", nopose=True)
 	mainplt.set_ylabel("# Events / Hz")
-	
+
 	# ratio plot
 	y = ((x_1 / x_2) - 1.) * 100.
 	mask = np.invert(np.isnan(y))
-	_yerr = 100*(Yerr/x_1) 
-	
+	_yerr = 100*(Yerr/x_1)
+
 	# plot line at 0 to guide the eye
 	ratioplt.axhline(0., color="#000000",
 					 linestyle="dashed",
