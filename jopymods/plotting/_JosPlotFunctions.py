@@ -212,7 +212,7 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	# iterate over all datasets
 	for i in range(n_iter):
 
-		hist = plt.hist(x[],
+		hist = plt.hist(x[i],
 						binis=bins[i],
 						alpha=alpha,
 						weights=weights[i],
