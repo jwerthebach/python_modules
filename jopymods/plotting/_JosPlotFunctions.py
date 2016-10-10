@@ -187,7 +187,7 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	"""
 
 	# get the number of datasets
-	n_iter = x.shape[1]
+	n_iter = len(x)
 
 	# --- Prepare the options so that we build a loop
 	# check for bins
