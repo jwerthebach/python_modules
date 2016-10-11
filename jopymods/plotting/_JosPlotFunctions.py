@@ -125,6 +125,7 @@ def JoHist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 	plt.clim(1, np.ceil(cmax))
 	# save the figure
 	plt.savefig(file_name)
+	plt.show()
 	plt.clf()
 
 
@@ -226,9 +227,70 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 						log=log)
 
 	plt.legend(loc='best')
-	plt.ylabel(ylabel)
+	# plot x and y lables
 	plt.xlabel(xlabel)
+	plt.ylabel(ylabel)
+	# set the limits of x
 	plt.xlim(xlim)
+	# save the figure
+	plt.savefig(file_name)
+	plt.show()
+	plt.clf()
+
+
+def JoROC(fpr, tpr, fig_size=(5,5), color=None, linewidth=[1,1],
+					file_name="Test.pdf", label=None):
+	"""Creates a 1D histogram
+
+	If `x` is multidimensional it plots the different histograms in one plot
+	and uses weights if given.
+
+	Parameters:
+	-----------
+	fpr, tpr : array_like
+		Input values
+
+	fig_size : optional
+		w,h tuple in inches with size of the figure.
+
+		The default is (10:5)
+
+	color : array_like, optional
+		Sequence of color specs. Default (None) uses the standard line color
+		sequence.
+
+		Default is `None`
+
+	linewidth : array_like, optional
+		Sequence of line widths.
+
+		Default is `[1,1]`
+
+	file_name : string, optional
+		file name to save the figure. You can also specify a path.
+
+		The default is `'Test.pdf'`
+
+	label : str
+		Label name of ROC curve.
+
+		The default is `None`
+	"""
+	# Set size of figure
+	plt.figure(figsize=fig_size)
+	# plot ROC curve
+	plt.plot(fpr, tpr, color=color[0], lw=lw[0], label=label)
+	# Plot diagonal line
+	plt.plot([0, 1], [0, 1], color=color[1], lw=lw[1], linestyle='--')
+	# set the limits of x
+	plt.xlim([0.0, 1.0])
+	plt.ylim([0.0, 1.0])
+	# plot x and y lables
+	plt.xlabel('False Positive Rate')
+	plt.ylabel('True Positive Rate')
+	# plot the legend
+	plt.legend(loc="best", title="Data/MC classification")
+	# save the figure
 	plt.savefig(file_name)
 	plt.show()
 	plt.clf()
