@@ -17,7 +17,7 @@ color=["#440154", "#472777", "#3e4989", "#30678d", "#25828e", "#1e9d88",#
 alpha=0.6
 
 
-def JoHist2d(x, y, bins, xlabel="x", ylabel="y", clabel="# Events",
+def JoHist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 			file_name="Test.pdf", print_mean=False, print_events=None,
 			colormap="viridis"):
 	"""Creates a 2D Histogram with different options.
@@ -222,31 +222,98 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	plt.legend(loc='best')
 	plt.ylabel(ylabel)
 	plt.xlabel(xlabel)
-	plt.show()
 	plt.savefig(file_name)
+	plt.show()
 	plt.clf()
 
 
-def JoImportancePlot(imp, att, bins=50, fig_size=(5,3), color=None, file_name="Test.pdf"):
-	"""Do some description here"""
+def JoImportancePlot(imp, feat, bins=50, xlabel="Feature Importance",
+					ylabel="Number of Events", n_print=10, xlim=None,
+					height=10, fig_size=(5,3), color=None, text_color='k',
+					file_name="Test.pdf"):
+	"""Creates a 1D histogram
 
-	plt.figure(figsize=(6, 3))
-	plt.hist(importance, bins=120, alpha=0.6, color=color[7])
-	plt.plot(importance, np.zeros(len(importance)), linestyle='', marker=2, color=color[7], markersize=10, linewidth=2)
+	If `x` is multidimensional it plots the different histograms in one plot
+	and uses weights if given.
 
-	index = np.argsort(importance)
-	for i in range(10):
-	    n = index[-(i+1)]
-	    plt.annotate(att_names[n], xy=(importance[n], 6), xytext=(importance[n], -5+i*5),
-	             arrowprops=dict(facecolor='black', shrink=0.01, width=0.2, headwidth=4, headlength=4))
+	Parameters:
+	-----------
+	imp : array_like
+		Input values, containing the importance of each feature in `feat`
 
-	plt.ylabel("Number of Features")
-	plt.xlabel("Feature Importance")
-	plt.xlim(0,0.015)
-	plt.savefig("../../data/proc/plotting/comparison/test_importance_2.pdf")
+	feat : array_like
+		the names of the features given in `imp`. Make sure that it has the
+		same order as imp so that imp[0] belongs to feat[0].
+
+	bins : [int | array_like], optional
+		If an integer is given, `bins + 1` bin edges are returned, consistently
+		with `numpy.histogram()` for `numpy version >= 1.3`.
+
+		Unequally spaced bins are supported if `bins` is a sequence.
+
+		default is 50
+
+	xlabel, ylabel : string, optional
+		Label for the axises.
+
+		The default is `x = 'Feature Importance'`, `y = 'Number of Events'`
+
+	n_print : int, optional
+		The features with the `n_print` highest features are marked in the plot.
+
+		The default is 10.
+
+	xlim : optional
+		Length 2 sequence of floats with limit of x axis.
+
+		The default is `None`
+
+	height : int, optional
+		Starting height for the text annotations.
+
+		The default is 0.
+
+	fig_size : optional
+		w,h tuple in inches with size of the figure.
+
+		The default is (10:5)
+
+	color, text_color : str, optional
+		Color spec. Default (None) uses the standard line color sequence.
+
+		Default is `None`
+
+	file_name : string, optional
+		file name to save the figure. You can also specify a path.
+
+		The default is `'Test.pdf'`
+	"""
+	# Set size of figure
+	plt.figure(figsize=fig_size)
+	# Plot the histogram
+	plt.hist(imp, bins=bins, alpha=0.6, color=color)
+	# Plot markings for the features
+	plt.plot(imp, np.zeros(len(imp)), linestyle='', marker=2, color=color,
+			markersize=10)
+
+	index = np.argsort(imp)
+	for i in range(n_print):
+		n = index[-(i+1)]
+		plt.annotate(feat[n], xy=(imp[n], 6), xytext=(imp[n], height+i*5),
+					ha='left', va='bottom', rotation=30, color=text_color,
+					arrowprops=dict(facecolor=text_color, shrink=0.01, width=0.2,
+									headwidth=4, headlength=4))
+
+	plt.ylabel(ylabel)
+	plt.xlabel(xlabel)
+	plt.xlim(xlim)
+	plt.savefig(file_name)
+	plt.show()
+	plt.clf()
 
 
-def JoSubPlots(x1, x2, x3, label1, label2, label3, pdf, bins=100, pltcolor=color[0], divE=0):
+def JoSubPlots(x1, x2, x3, label1, label2, label3, pdf, bins=100,
+			pltcolor=color[0], divE=0):
 	"""Function to print three subplots horizontal.
 
 	Plot three histograms in one figure and save the figure in a pdf file.
@@ -304,7 +371,8 @@ def GewErr(W):
 	return sum(W*W),sum(W)
 
 
-def ErrCompPlot(x1, w1, x2, w2, bins=50, title=None,Log=False,xmin=None,xmax=None,space=0.07):
+def ErrCompPlot(x1, w1, x2, w2, bins=50, title=None,Log=False,xmin=None,
+				xmax=None,space=0.07):
 	"""Makes a comparison plot with weighted Histogramms.
 
 	Will calculate the binerror for the weighted x1 and the simple sqrt(n)
