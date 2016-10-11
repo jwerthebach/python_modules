@@ -238,7 +238,7 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	plt.clf()
 
 
-def JoROC(fpr, tpr, fig_size=(5,5), color=None, linewidth=[1,1],
+def JoROC(fpr, tpr, fig_size=(5,5), color=None, lw=[1,1],
 					file_name="Test.pdf", label=None):
 	"""Creates a 1D histogram
 
