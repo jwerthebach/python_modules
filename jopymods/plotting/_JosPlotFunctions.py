@@ -129,7 +129,8 @@ def JoHist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 
 
 def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
-			dlabel=None, log=False, file_name="Test.pdf", color=None):
+			dlabel=None, xlim=None, log=False, file_name="Test.pdf",
+			color=None):
 	"""Creates a 1D histogram
 
 	If `x` is multidimensional it plots the different histograms in one plot
@@ -164,6 +165,11 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 		Sequence of strings to match multiple datasets.
 
 		The default is None
+
+	xlim : optional
+		Length 2 sequence of floats with limit of x axis.
+
+		The default is `None`
 
 	log : boolean, optional
 		If `True`, the histogram axis will be set to a log scale. If log is
@@ -222,6 +228,7 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	plt.legend(loc='best')
 	plt.ylabel(ylabel)
 	plt.xlabel(xlabel)
+	plt.xlim(xlim)
 	plt.savefig(file_name)
 	plt.show()
 	plt.clf()
