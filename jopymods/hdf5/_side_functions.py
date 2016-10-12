@@ -119,7 +119,8 @@ def read_data(file_list, atts):
 
 	# Create container
 	hdf_container = i3df.HDFcontainer(file_list=file_list,
-									  exists_col="exists")
+									  exists_col="exists",
+									  silent=True)
 	# Read all attributes
 	df = hdf_container.get_df(atts)
 	return df
