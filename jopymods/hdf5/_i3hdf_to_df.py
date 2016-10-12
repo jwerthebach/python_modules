@@ -34,7 +34,8 @@ class HDFcontainer:
 				 id_cols=['Run',
 						  'Event',
 						  'SubEvent'],
-				 exists_col=None):
+				 exists_col=None,
+				 silent=False):
 		assert (directory is not None) or (file_list is not None), \
 			'If component is not from aggregation directory or file_list'\
 			'is needed!'
@@ -45,6 +46,7 @@ class HDFcontainer:
 		self.file_list = file_list
 		self.id_cols = id_cols
 		self.exists_col = exists_col
+		self.silent=silent
 
 	def get_observables(self,
 						blacklist_tabs=[],
@@ -106,7 +108,7 @@ class HDFcontainer:
 		n_obs = len(observables)
 		obs = split_obs_str(observables)
 		finished_cols = 0
-		with tqdm(total=n_obs, unit='Observables') as pbar:
+		with tqdm(total=n_obs, unit='Observables', disable=self.silent) as pbar:
 			for i, [table_key, cols] in enumerate(obs.iteritems()):
 				tab_values = self.get_values(table_key, cols)
 				if i == 0:
