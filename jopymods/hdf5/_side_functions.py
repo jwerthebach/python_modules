@@ -100,7 +100,7 @@ def get_n_files_total(file_list):
 		nfiles += len(d["i3_list"])-1
 	return float(nfiles)
 
-def read_data(file_list, atts):
+def read_data(file_list, atts, silent=True):
 	"""Reads all hdf5 files and converts them to a pandas data frame.
 
 	Parameters:
@@ -120,7 +120,7 @@ def read_data(file_list, atts):
 	# Create container
 	hdf_container = i3df.HDFcontainer(file_list=file_list,
 									  exists_col="exists",
-									  silent=True)
+									  silent=silent)
 	# Read all attributes
 	df = hdf_container.get_df(atts)
 	return df
