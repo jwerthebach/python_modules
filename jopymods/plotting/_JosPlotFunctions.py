@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -202,7 +203,7 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	# check if weights are present
 	if isinstance(MCweight, int):
 		weights = [None]*n_iter
-	elif len(MCweight) == 1:
+	elif len(np.shape(MCweight)) == 1:
 		weights = [MCweight]*n_iter
 	else:
 		weights = MCweight
