@@ -100,7 +100,7 @@ def get_n_files_total(file_list):
 		nfiles += len(d["i3_list"])-1
 	return float(nfiles)
 
-def read_data(file_list, atts, silent=True):
+def _read_data(file_list, atts, silent=True):
 	"""Reads all hdf5 files and converts them to a pandas data frame.
 
 	Parameters:
@@ -123,4 +123,51 @@ def read_data(file_list, atts, silent=True):
 									  silent=silent)
 	# Read all attributes
 	df = hdf_container.get_df(atts)
+	return df
+
+def read_data(file_list, atts, n_events=None, silent=True):
+	"""Reads hdf5 files from a list in chunks.
+
+	Due to a memory leak in the i3_to_hdf script, which causes an exponential
+	grow of used memory if one load a lot of files at once, I will load all
+	files in chunks of two and append them to one big dataframe.
+
+	This function replaces the old read_data function.
+
+	I should check if this behavior is caused by the script or some of my data
+	i.e. multiple use of the same ID.
+
+	Parameters:
+	-----------
+	file_list : array_like
+		List containing hdf5 files to load.
+	atts : array_like
+		List containing all features to load.
+		Must be a List even if just one feature should be loaded.
+	n_events : int
+		Specify the number of events that should be loaded. It will load
+		the first files until the number of events are greater than n_events.
+		In the default all files are loaded.
+		Default is None
+	silent : boolean
+		Set to false to show a progress bar.
+		Default is True
+
+	Returns:
+	--------
+	df : pandas data frame
+		Data frame containing the values.
+	"""
+
+	# Files loaded at once
+	# Use two, because loading more than two at once causes the memory leak
+	step_size=2
+	# Load the first two and initialize the dataframe.
+	df = _read_data(file_list[0:0+step_size], atts)
+
+	# Load all the other files and append them to the existing one.
+	for i in np.arange(step_size,len(file_list),step_size):
+		if n_events is None or len(df.index) < n_events:
+			df = df.append(_read_data(file_list[i:i+step_size], atts))
+
 	return df
