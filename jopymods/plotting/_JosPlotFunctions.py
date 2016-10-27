@@ -20,7 +20,7 @@ alpha=0.6
 
 def JoHist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 			file_name="Test.pdf", print_mean=False, print_events=None,
-			colormap="viridis"):
+			colormap="viridis", view=False):
 	"""Creates a 2D Histogram with different options.
 
 	This function is a wrapper around the standard `matplotlib.pyplot hist2d`.
@@ -75,6 +75,11 @@ def JoHist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 		Define the `colormap`.
 
 		The default is `'viridis'
+
+	view: boolean
+		If True the plot will be shown.
+
+		Default is False
 	"""
 
 	# get min/max value
@@ -126,13 +131,14 @@ def JoHist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 	plt.clim(1, np.ceil(cmax))
 	# save the figure
 	plt.savefig(file_name)
-	plt.show()
+	if view:
+		plt.show()
 	plt.clf()
 
 
 def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 			dlabel=None, xlim=None, log=False, file_name="Test.pdf",
-			color=None):
+			color=None, view=False):
 	"""Creates a 1D histogram
 
 	If `x` is multidimensional it plots the different histograms in one plot
@@ -191,6 +197,11 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 		uses the standard line color sequence.
 
 		Default is `None`
+
+	view: boolean
+		If True the plot will be shown.
+
+		Default is False
 	"""
 
 	# get the number of datasets
@@ -235,12 +246,13 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	plt.xlim(xlim)
 	# save the figure
 	plt.savefig(file_name)
-	plt.show()
+	if view:
+		plt.show()
 	plt.clf()
 
 
 def JoROC(fpr, tpr, fig_size=(5,5), color=None, lw=[1,1],
-					file_name="Test.pdf", label=None):
+					file_name="Test.pdf", label=None, view=False):
 	"""Creates a 1D histogram
 
 	If `x` is multidimensional it plots the different histograms in one plot
@@ -276,6 +288,11 @@ def JoROC(fpr, tpr, fig_size=(5,5), color=None, lw=[1,1],
 		Label name of ROC curve.
 
 		The default is `None`
+
+	view: boolean
+		If True the plot will be shown.
+
+		Default is False
 	"""
 	# Set size of figure
 	plt.figure(figsize=fig_size)
@@ -293,14 +310,15 @@ def JoROC(fpr, tpr, fig_size=(5,5), color=None, lw=[1,1],
 	plt.legend(loc="best", title="Data/MC classification")
 	# save the figure
 	plt.savefig(file_name)
-	plt.show()
+	if view:
+		plt.show()
 	plt.clf()
 
 
 def JoImportancePlot(imp, feat, bins=50, xlabel="Feature Importance",
 					ylabel="Number of Events", n_print=10, xlim=None,
 					height=10, fig_size=(5,3), color=None, text_color='k',
-					file_name="Test.pdf"):
+					file_name="Test.pdf", view=False):
 	"""Creates a 1D histogram
 
 	If `x` is multidimensional it plots the different histograms in one plot
@@ -357,6 +375,11 @@ def JoImportancePlot(imp, feat, bins=50, xlabel="Feature Importance",
 		file name to save the figure. You can also specify a path.
 
 		The default is `'Test.pdf'`
+
+	view: boolean
+		If True the plot will be shown.
+
+		Default is False
 	"""
 	# Set size of figure
 	plt.figure(figsize=fig_size)
@@ -378,7 +401,8 @@ def JoImportancePlot(imp, feat, bins=50, xlabel="Feature Importance",
 	plt.xlabel(xlabel)
 	plt.xlim(xlim)
 	plt.savefig(file_name)
-	plt.show()
+	if view:
+		plt.show()
 	plt.clf()
 
 
