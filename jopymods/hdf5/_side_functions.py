@@ -168,6 +168,7 @@ def read_data(file_list, atts, n_events=None, silent=True):
 
 	# Load all the other files and append them to the existing one.
 	with tqdm(total=len(file_list), unit='Files', disable=silent) as pbar:
+		pbar.update(step_size)
 		for i in np.arange(step_size,len(file_list),step_size):
 			if n_events is None or len(df.index) < n_events:
 				df = df.append(_read_data(file_list[i:i+step_size], atts))
