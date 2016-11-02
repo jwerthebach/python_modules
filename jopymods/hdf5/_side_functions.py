@@ -171,6 +171,6 @@ def read_data(file_list, atts, n_events=None, silent=True):
 		for i in np.arange(step_size,len(file_list),step_size):
 			if n_events is None or len(df.index) < n_events:
 				df = df.append(_read_data(file_list[i:i+step_size], atts))
-			pbar.update(step_size))
+			pbar.update(step_size)
 
 	return df
