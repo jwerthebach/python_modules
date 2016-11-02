@@ -113,10 +113,9 @@ def JoHist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 	# --- final tweaks and save the figure
 	# print the total number of events in the plot
 	if print_events != None:
-		text = print_events[0]
+		s = print_events[0].format(len(x))
 		pos_x = print_events[1]
 		pos_y = print_events[2]
-		s = print_events.format(len(x))
 		plt.text(pos_x , pos_y, s, fontsize=12)
 	# plot x and y lables
 	plt.xlabel(xlabel)
