@@ -163,11 +163,13 @@ def read_data(file_list, atts, n_events=None, silent=True):
 	# Use two, because loading more than two at once causes the memory leak
 	step_size=2
 	# Load the first two and initialize the dataframe.
-	df = _read_data(file_list[0:0+step_size], atts, silent)
+	df = _read_data(file_list[0:0+step_size], atts)
 
 	# Load all the other files and append them to the existing one.
-	for i in np.arange(step_size,len(file_list),step_size):
-		if n_events is None or len(df.index) < n_events:
-			df = df.append(_read_data(file_list[i:i+step_size], atts))
+	with tqdm(total=len(file_list), unit='Files', disable=silent) as pbar:
+		for i in np.arange(step_size,len(file_list),step_size):
+			if n_events is None or len(df.index) < n_events:
+				df = df.append(_read_data(file_list[i:i+step_size], atts))
+			pbar.update(step_size))
 
 	return df
