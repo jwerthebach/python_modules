@@ -5,7 +5,7 @@ import os
 
 import numpy as np
 import cPickle as pickle
-import tqdm
+from tqdm import tqdm
 
 import _i3hdf_to_df as i3df
 
