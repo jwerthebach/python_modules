@@ -163,7 +163,7 @@ def read_data(file_list, atts, n_events=None, silent=True):
 	# Use two, because loading more than two at once causes the memory leak
 	step_size=2
 	# Load the first two and initialize the dataframe.
-	df = _read_data(file_list[0:0+step_size], atts)
+	df = _read_data(file_list[0:0+step_size], atts, silent)
 
 	# Load all the other files and append them to the existing one.
 	for i in np.arange(step_size,len(file_list),step_size):
