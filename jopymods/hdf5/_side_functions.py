@@ -126,7 +126,7 @@ def _read_data(file_list, atts, silent=True):
 	df = hdf_container.get_df(atts)
 	return df
 
-def read_data(file_list, atts, n_events=None, silent=True):
+def read_data(file_list, atts, n_events='None', silent=True):
 	"""Reads hdf5 files from a list in chunks.
 
 	Due to a memory leak in the i3_to_hdf script, which causes an exponential
@@ -149,7 +149,7 @@ def read_data(file_list, atts, n_events=None, silent=True):
 		Specify the number of events that should be loaded. It will load
 		the first files until the number of events are greater than n_events.
 		In the default all files are loaded.
-		Default is None
+		Default is 'None'
 	silent : boolean
 		Set to false to show a progress bar.
 		Default is True
@@ -170,7 +170,7 @@ def read_data(file_list, atts, n_events=None, silent=True):
 	with tqdm(total=len(file_list), unit='Files', disable=silent) as pbar:
 		pbar.update(step_size)
 		for i in np.arange(step_size,len(file_list),step_size):
-			if n_events is None or len(df.index) < n_events:
+			if n_events is 'None' or len(df.index) < n_events:
 				df = df.append(_read_data(file_list[i:i+step_size], atts))
 			if i*step_size > len(file_list):
 				pbar.update(1)
