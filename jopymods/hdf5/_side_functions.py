@@ -172,7 +172,7 @@ def read_data(file_list, atts, n_events='None', silent=True):
 		for i in np.arange(step_size,len(file_list),step_size):
 			print()
 			if n_events is 'None' or len(df.index) < n_events:
-				df = df.append(_read_data(file_list[i:i+step_size], atts)
+				df = df.append(_read_data(file_list[i:i+step_size], atts))
 			if i*step_size > len(file_list):
 				pbar.update(1)
 			else:
