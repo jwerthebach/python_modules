@@ -18,9 +18,9 @@ color=["#440154", "#472777", "#3e4989", "#30678d", "#25828e", "#1e9d88",#
 alpha=0.6
 
 
-def JoHist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
-			file_name="Test.pdf", print_mean=False, print_events=None,
-			colormap="viridis", view=False):
+def Hist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
+			file_name="Test.pdf", print_mean=False, print_events="None",
+			colormap="viridis", view=False, xlim="None", ylim="None"):
 	"""Creates a 2D Histogram with different options.
 
 	This function is a wrapper around the standard `matplotlib.pyplot hist2d`.
@@ -69,7 +69,7 @@ def JoHist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 		- [1] : float, x position relative from the left bottom (0...1)
 		- [2] : float, y position relative from the left bottom (0...1)
 
-		The default is None.
+		The default is 'None'.
 
 	colormap : string, optional
 		Define the `colormap`.
@@ -80,11 +80,32 @@ def JoHist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 		If True the plot will be shown.
 
 		Default is False
+
+	xlim:  [int, int], optional
+		Limits of the x axis
+
+		The default is 'None'
+
+	ylim:  [int, int], optional
+		Limits of the y axis
+
+		The default is 'None'
 	"""
 
 	# get min/max value
-	min_v = min(x.min(), y.min())
-	max_v = max(x.max(), y.max())
+	if xlim == "None":
+		x_min = x.min()
+		x_max = x.max()
+	else:
+		x_min = xlim[0]
+		x_max = xlim[1]
+	if ylim == "None":
+		y_min = y.min()
+		y_max = y.max()
+	else:
+		y_min = ylim[0]
+		y_max = ylim[1]
+
 
 	# color map to use
 	cmap = plt.get_cmap(colormap)
@@ -112,7 +133,7 @@ def JoHist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 
 	# --- final tweaks and save the figure
 	# print the total number of events in the plot
-	if print_events != None:
+	if print_events != "None":
 		s = print_events[0].format(len(x))
 		pos_x = print_events[1]
 		pos_y = print_events[2]
@@ -121,8 +142,8 @@ def JoHist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 	plt.xlabel(xlabel)
 	plt.ylabel(ylabel)
 	# set the limits of x/y to the same value
-	plt.xlim(min_v, max_v)
-	plt.ylim(min_v, max_v)
+	plt.xlim(x_min, x_max)
+	plt.ylim(y_min, y_max)
 	# plot the colorbar, set the lable and set the limits
 	cb = plt.colorbar()
 	cb.set_label(clabel)
@@ -135,7 +156,7 @@ def JoHist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 	plt.clf()
 
 
-def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
+def Hist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 			dlabel=None, xlim=None, log=False, file_name="Test.pdf",
 			color=None, view=False):
 	"""Creates a 1D histogram
@@ -250,7 +271,7 @@ def JoHist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	plt.clf()
 
 
-def JoROC(fpr, tpr, fig_size=(5,5), color=None, lw=[1,1],
+def ROC(fpr, tpr, fig_size=(5,5), color=None, lw=[1,1],
 					file_name="Test.pdf", label=None, view=False):
 	"""Creates a 1D histogram
 
@@ -314,7 +335,7 @@ def JoROC(fpr, tpr, fig_size=(5,5), color=None, lw=[1,1],
 	plt.clf()
 
 
-def JoImportancePlot(imp, feat, bins=50, xlabel="Feature Importance",
+def ImportancePlot(imp, feat, bins=50, xlabel="Feature Importance",
 					ylabel="Number of Events", n_print=10, xlim=None,
 					height=10, fig_size=(5,3), color=None, text_color='k',
 					file_name="Test.pdf", view=False):
@@ -405,7 +426,7 @@ def JoImportancePlot(imp, feat, bins=50, xlabel="Feature Importance",
 	plt.clf()
 
 
-def JoSubPlots(x1, x2, x3, label1, label2, label3, pdf, bins=100,
+def SubPlots(x1, x2, x3, label1, label2, label3, pdf, bins=100,
 			pltcolor=color[0], divE=0):
 	"""Function to print three subplots horizontal.
 
