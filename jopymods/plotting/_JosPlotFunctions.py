@@ -158,7 +158,7 @@ def Hist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 
 def Hist1d(x, bins=50, weights=1, xlabel="x", ylabel="Number of Events",
 			dlabel=None, xlim=None, log=False, file_name="Test.pdf",
-			color=None, view=False):
+			color=None, view=False, histtype='step'):
 	"""Creates a 1D histogram
 
 	If `x` is multidimensional it plots the different histograms in one plot
@@ -252,7 +252,8 @@ def Hist1d(x, bins=50, weights=1, xlabel="x", ylabel="Number of Events",
 						weights=weights[i],
 						label=dlabel[i],
 						color=color[i],
-						log=log)
+						log=log,
+						histtype=histtype)
 
 	plt.legend(loc='best')
 	# plot x and y lables
