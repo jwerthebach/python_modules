@@ -156,7 +156,7 @@ def Hist2d(x, y, bins=10, xlabel="x", ylabel="y", clabel="# Events",
 	plt.clf()
 
 
-def Hist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
+def Hist1d(x, bins=50, weights=1, xlabel="x", ylabel="Number of Events",
 			dlabel=None, xlim=None, log=False, file_name="Test.pdf",
 			color=None, view=False):
 	"""Creates a 1D histogram
@@ -232,12 +232,8 @@ def Hist1d(x, bins=50, MCweight=1, xlabel="x", ylabel="Number of Events",
 	if isinstance(bins, int):
 		bins = [bins]*n_iter
 	# check if weights are present
-	if isinstance(MCweight, int):
+	if isinstance(weights, int):
 		weights = [None]*n_iter
-	elif len(np.shape(MCweight)) == 1:
-		weights = [MCweight]*n_iter
-	else:
-		weights = MCweight
 	# check lables for datasets
 	if dlabel == None:
 		dlabel = [None]*n_iter
